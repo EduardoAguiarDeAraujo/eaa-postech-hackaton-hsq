@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: hsq-command
+          uri: lb://hsq-command
+          predicates:
+            - Path=/api/v1/comando/**
+          filters:
+            - RewritePath=/api/v1/comando/(?<segment>.*), /api/v1/$\{segment}
+        - id: hsq-query
+          uri: lb://hsq-query
+          predicates:
+            - Path=/api/v1/consulta/**
+          filters:
+            - RewritePath=/api/v1/consulta/(?<segment>.*), /api/v1/$\{segment}
+
+server:
+  port: 8080

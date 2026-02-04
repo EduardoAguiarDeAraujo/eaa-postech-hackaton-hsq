@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: hsq-command
+  config:
+    import: optional:configserver:http://localhost:8888
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/data.sql
+  jpa:
+    defer-datasource-initialization: true
+
+logging:
+  level:
+    root: OFF
