@@ -1,10 +1,10 @@
 package br.eng.eaa.hsqquery.controller;
 
+import br.eng.eaa.hsqquery.model.SugestaoUnidadeDTO;
 import br.eng.eaa.hsqquery.model.UnidadeSaudeDTO;
 import br.eng.eaa.hsqquery.service.UnidadeSaudeClient;
 import br.eng.eaa.hsqquery.service.UnidadeSaudeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,12 +43,16 @@ public class UnidadeSaudeController {
         return ResponseEntity.status(HttpStatus.OK).body(unidades);
     }
 
-
     @GetMapping()
     public ResponseEntity<List<UnidadeSaudeDTO>> findAll(){
         List<UnidadeSaudeDTO> unidades = unidadeSaudeService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(unidades);
     }
 
+    @GetMapping("/ocupacao/{especialidade}/{cep}")
+    public ResponseEntity<List<SugestaoUnidadeDTO>> sugestaoUnidadePorOcupacao(@PathVariable("especialidade") String especialidade, @PathVariable("cep") String cep){
+        List<SugestaoUnidadeDTO> sugestoes = unidadeSaudeService.sugestaoUnidadesPorOcupacao(especialidade,cep);
+        return ResponseEntity.status(HttpStatus.OK).body(sugestoes);
+    }
 
 }
