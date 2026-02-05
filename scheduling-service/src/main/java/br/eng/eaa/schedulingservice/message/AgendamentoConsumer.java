@@ -17,7 +17,6 @@ public class AgendamentoConsumer {
 
     @RabbitListener(queues = RabbitConfig.QUEUE_SCHEDULING)
     public void receive(AgendamentoDTO agendamentoDTO) {
-        System.out.println("Recebido: " + agendamentoDTO);
         agendamentoService.agendarConsulta(agendamentoDTO);
     }
 }

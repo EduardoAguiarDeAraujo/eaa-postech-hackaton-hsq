@@ -18,7 +18,6 @@ public class AgendamentoService {
 
     public AgendamentoDTO agendarConsulta(AgendamentoDTO agendamento) {
         AgendamentoDTO agendamentoRealizado = agendamentoClient.agendarConsulta(agendamento);
-        System.out.println("Enviando para SISREG: " + agendamentoRealizado);
         String body = "Enviando para SISREG: " + agendamentoRealizado.justificativaMedica();
         emailProducer.sendEmail(new EmailMessageDTO("paciente@gmail.com","Confirmação de agendamento", body));
         return agendamentoRealizado;

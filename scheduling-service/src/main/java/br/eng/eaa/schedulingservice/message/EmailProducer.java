@@ -16,6 +16,5 @@ public class EmailProducer {
 
     public void sendEmail(EmailMessageDTO message) {
         rabbitTemplate.convertAndSend(RabbitConfig.QUEUE_EMAIL, message);
-        System.out.println("Enviando email para fila: " + message.to());
     }
 }
