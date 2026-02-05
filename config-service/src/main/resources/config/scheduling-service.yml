@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   cloud:
     openfeign:
@@ -17,6 +20,3 @@ broker:
         name: tasks
       created:
         routing-key: tasks.v1.task-created
-
-server:
-  port: 8083
