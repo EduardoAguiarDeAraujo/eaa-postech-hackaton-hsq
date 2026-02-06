@@ -27,3 +27,7 @@ spring:
     init:
       mode: always
       data-locations: classpath:/data.sql
+
+eureka:
+  instance:
+    prefer-ip-address: true

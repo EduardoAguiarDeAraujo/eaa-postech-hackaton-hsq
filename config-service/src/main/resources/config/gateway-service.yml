@@ -30,3 +30,8 @@ spring:
           filters:
             - AuthenticationFilter
             - RewritePath=/api/v1/consulta/(?<segment>.*), /api/v1/$\{segment}
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true

@@ -36,3 +36,7 @@ broker:
         name: tasks
       created:
         routing-key: tasks.v1.task-created
+
+eureka:
+  instance:
+    prefer-ip-address: true

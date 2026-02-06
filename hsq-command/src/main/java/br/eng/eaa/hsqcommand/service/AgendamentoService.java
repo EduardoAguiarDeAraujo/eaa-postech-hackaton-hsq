@@ -46,7 +46,7 @@ public class AgendamentoService {
         agendamento.setDataSolicitacao(dto.dataSolicitacao() != null ? dto.dataSolicitacao() : LocalDateTime.now());
         agendamento.setDataAgendamento(dto.dataAgemdamento());
         agendamento.setJustificativaMedica(dto.justificativaMedica());
-        agendamento.setStatus(dto.status() != null ? StatusAgendamento.valueOf(dto.status()) : StatusAgendamento.PENDENTE);
+        agendamento.setStatus(dto.status() != null ? StatusAgendamento.valueOf(dto.status()) : StatusAgendamento.AGENDADO);
 
         Agendamento salvo = repository.save(agendamento);
 

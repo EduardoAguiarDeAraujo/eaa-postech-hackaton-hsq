@@ -50,3 +50,7 @@ feign:
       cnes-unidade:
         connectTimeout: 2000
         readTimeout: 2000
+
+eureka:
+  instance:
+    prefer-ip-address: true

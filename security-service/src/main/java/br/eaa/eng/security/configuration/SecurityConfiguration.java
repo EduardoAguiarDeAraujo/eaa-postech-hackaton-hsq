@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers(HttpMethod.POST, "/login/**").permitAll();
+                    request.requestMatchers(HttpMethod.GET, "/login/validate").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/usuario/salvar").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/usuario").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER");
                     request.requestMatchers(HttpMethod.GET, "/perfil").hasAuthority("ROLE_ADMIN");

@@ -2,11 +2,15 @@ package br.eng.eaa.gatewayservice.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -25,6 +29,17 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+
+            String path = exchange.getRequest().getURI().getPath();
+            if (path.contains("/login")) {
+                return chain.filter(exchange);
+            }
+
+            if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+                // Retorna erro 401 em vez de deixar estourar erro 500 no console
+                return onError(exchange, "Header de autorização ausente", HttpStatus.UNAUTHORIZED);
+            }
+
             if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token não encontrado"));
             }
@@ -33,15 +48,25 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             return webClientBuilder.build()
                     .get()
-                    .uri("http://eaa-security-service/login/validate")
+                    .uri("http://security-service/login/validate")
                     .header(HttpHeaders.AUTHORIZATION, authHeader)
                     .retrieve()
-                    // Se o status for 2xx, continua. Se for 4xx ou 5xx, lança erro.
                     .bodyToMono(Void.class)
                     .then(chain.filter(exchange))
-                    .onErrorResume(ex -> {
-                        return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado"));
-                    });
+                    .onErrorResume(ex -> onError(exchange, "Token inválido ou expirado", HttpStatus.UNAUTHORIZED));
         };
+    }
+
+    private Mono<Void> onError(ServerWebExchange exchange, String message, HttpStatus status) {
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(status);
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+        // Criando um corpo de erro simples
+        String errorJson = String.format("{\"error\": \"%s\", \"message\": \"%s\"}", status.getReasonPhrase(), message);
+        byte[] bytes = errorJson.getBytes();
+
+        DataBuffer buffer = response.bufferFactory().wrap(bytes);
+        return response.writeWith(Mono.just(buffer));
     }
 }

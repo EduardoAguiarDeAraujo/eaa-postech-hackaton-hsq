@@ -32,6 +32,12 @@ spring:
       mode: always
       data-locations: classpath:/data.sql
 
+eureka:
+  instance:
+    hostname: localhost # <-- Adicione isso
+    prefer-ip-address: true
+
+
 # logging:
 #  level:
 #    root: OFF
