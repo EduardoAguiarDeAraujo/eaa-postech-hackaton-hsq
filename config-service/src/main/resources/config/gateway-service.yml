@@ -9,15 +9,24 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        # ROTA PÚBLICA:
+        - id: security-service
+          uri: lb://security-service
+          predicates:
+            - Path=/login/**
+
+        # Rota Protegida
         - id: hsq-command
           uri: lb://hsq-command
           predicates:
             - Path=/api/v1/comando/**
           filters:
+            - AuthenticationFilter
             - RewritePath=/api/v1/comando/(?<segment>.*), /api/v1/$\{segment}
         - id: hsq-query
           uri: lb://hsq-query
           predicates:
             - Path=/api/v1/consulta/**
           filters:
+            - AuthenticationFilter
             - RewritePath=/api/v1/consulta/(?<segment>.*), /api/v1/$\{segment}

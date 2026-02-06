@@ -42,4 +42,19 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.CREATED).body(loginDto);
     }
 
+    @GetMapping("/validate")
+    public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String token) {
+        try {
+            String jwt = token.replace("Bearer ", "");
+            String subject = tokenService.getSubject(jwt);
+
+            if (subject != null && !subject.isEmpty()) {
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }

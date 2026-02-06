@@ -32,9 +32,9 @@ spring:
       mode: always
       data-locations: classpath:/data.sql
 
-logging:
-  level:
-    root: OFF
+# logging:
+#  level:
+#    root: OFF
 
 token:
   secret: ${JWT_SECRET:55957215-2c46-4a53-b177-7721f9d403b2}
