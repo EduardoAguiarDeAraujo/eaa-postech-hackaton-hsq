@@ -1,0 +1,85 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        use-native-decode: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # Rota Pública:
+        - id: security-docs
+          uri: lb://SECURITY-SERVICE
+          predicates:
+            - Path=/api/v1/login/v3/api-docs
+          filters:
+            - RewritePath=/api/v1/login/(?<segment>.*), /${segment}
+
+        - id: security-service
+          uri: lb://SECURITY-SERVICE
+          predicates:
+            - Path=/api/v1/login/**
+
+        - id: hsq-command-docs
+          uri: lb://HSQ-COMMAND
+          predicates:
+            - Path=/api/v1/comando/v3/api-docs
+          filters:
+            - RewritePath=/api/v1/comando/(?<segment>.*), /$\{segment}
+
+        - id: hsq-query-docs
+          uri: lb://HSQ-QUERY
+          predicates:
+            - Path=/api/v1/consulta/v3/api-docs
+          filters:
+            - RewritePath=/api/v1/consulta/(?<segment>.*), /$\{segment}
+
+        - id: openapi-config
+          uri: http://localhost:8080
+          predicates:
+            - Path=/v3/api-docs/swagger-config
+
+        # Rotas Protegidas:
+        - id: hsq-command
+          uri: lb://HSQ-COMMAND
+          predicates:
+            - Path=/api/v1/comando/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/comando/(?<segment>.*), /api/v1/$\{segment}
+
+        - id: hsq-query
+          uri: lb://HSQ-QUERY
+          predicates:
+            - Path=/api/v1/consulta/**
+          filters:
+            - AuthenticationFilter
+            - RewritePath=/api/v1/consulta/(?<segment>.*), /api/v1/$\{segment}
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+
+springdoc:
+  enable-native-support: true
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: HSQ Command
+        url: /api/v1/comando/v3/api-docs
+      - name: HSQ Query
+        url: /api/v1/consulta/v3/api-docs
+      - name: Security
+        url: /api/v1/login/v3/api-docs
+
+  gateway:
+    discovery:
+      enabled: true

@@ -1,0 +1,56 @@
+server:
+  port: 8081
+  forward-headers-strategy: framework
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hsq_command_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 600000
+      pool-name: HikariCP
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      properties:
+        hibernate:
+          format_sql: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: "123456"
+    virtual-host: /
+  jackson:
+    default-property-inclusion: non_null
+
+broker:
+  queue:
+    task:
+      exchange:
+        name: tasks
+      created:
+        routing-key: tasks.v1.task-created
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha

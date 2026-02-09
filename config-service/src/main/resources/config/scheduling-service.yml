@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: "123456"
+    virtual-host: /
+
+broker:
+  queue:
+    task:
+      exchange:
+        name: tasks
+      created:
+        routing-key: tasks.v1.task-created
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}

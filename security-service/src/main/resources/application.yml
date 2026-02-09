@@ -1,0 +1,45 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: security-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hsq_user_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 600000
+      pool-name: HikariCP
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      properties:
+        hibernate:
+          format_sql: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/data.sql
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+
+logging:
+  level:
+    root: OFF
+
+token:
+  secret: ${JWT_SECRET:55957215-2c46-4a53-b177-7721f9d403b2}
