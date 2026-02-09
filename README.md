@@ -2,13 +2,19 @@
 
 ## 1. Introdução
 
-O projeto apresenta o desenvolvimento de um sistema *back-end* para o agendamento inteligente de consultas e exames no SUS, fundamentado na **Teoria das Filas** para otimizar a alocação de pacientes em hospitais próximos à sua localização.
+O projeto apresenta o desenvolvimento de um sistema *back-end* para o agendamento inteligente 
+de consultas no SUS, fundamentado na **Teoria das Filas** para otimizar a alocação de pacientes em hospitais próximos à sua localização.
 
-O objetivo central é a redução do tempo de espera e das filas presenciais por meio de uma distribuição eficiente de recursos. A solução integra localização para identificar unidades de saúde próximas e aplica modelos matemáticos (como **M/M/1**) para prever e sugerir unidades com menor sobrecarga. O impacto projetado inclui uma **diminuição de até 30% no tempo médio de espera**, promovendo maior satisfação dos usuários e alívio operacional para os profissionais de saúde.
+O objetivo central é a redução do tempo de espera e das filas presenciais por meio de uma 
+distribuição eficiente de recursos. A solução integra localização para identificar unidades de 
+saúde próximas e aplica modelos matemáticos (**M/M/1**) para prever e sugerir unidades com menor 
+sobrecarga. O impacto projetado inclui uma diminuição de até 30% no tempo médio de espera, 
+promovendo maior satisfação dos usuários e alívio operacional para os profissionais de saúde.
 
 ## 2. Problema Identificado
 
-O Sistema Único de Saúde (SUS) enfrenta desafios estruturais, como a sobrecarga das unidades e a ineficiência na distribuição geográfica de pacientes.
+O Sistema Único de Saúde (SUS) enfrenta desafios estruturais, como a sobrecarga das unidades e a 
+ineficiência na distribuição geográfica de pacientes.
 
 * **Dados:** Segundo o Ministério da Saúde (2023), o tempo de espera para exames especializados pode chegar a 90 dias em certas regiões.
 * **Cenário Local:** Em áreas urbanas como Osasco (SP), unidades centrais sofrem com superlotação enquanto postos periféricos permanecem subutilizados.
@@ -20,7 +26,7 @@ A solução **Health Smart Queue (HSQ)** é um ecossistema *back-end* que viabil
 
 ### 3.1 Fundamentação Matemática
 
-Utiliza o modelo **M/M/1** (chegadas e atendimentos de Poisson) para calcular métricas críticas, como o tempo médio na fila:
+O sistema utiliza o modelo **M/M/1** (chegadas e atendimentos de Poisson) para calcular métricas críticas, como o tempo médio na fila:
 
 ![img.png](.img/img1.png)
 
@@ -53,7 +59,7 @@ O Modelo M/M/1 é uma representação matemática de uma fila onde:
 
 ### 3.2 Diferencial Estratégico
 
-Diferente de sistemas tradicionais como o SISREG, o HSQ utiliza dados da RNDS para obter médias de atendimento em tempo real, permitindo uma gestão dinâmica que considera a carga atual de cada unidade.
+Diferente de sistemas tradicionais como o SISREG, que olham apenas para as vagas disponíveis, o HSQ utiliza dados do RNDS para obter médias de atendimento em tempo real, identificando onde o fluxo está mais rápido e permitindo uma gestão mais dinâmica, mesmo que a unidade esteja geograficamente mais distante.
 
 ## 4. Processo de Desenvolvimento
 
