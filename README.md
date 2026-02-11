@@ -435,11 +435,11 @@ O código-fonte do sistema está disponível nos seguintes repositórios do GitH
 
 ## Referências
 
-* Repositório HSQ: https://github.com/EduardoAguiarDeAraujo/eaa-postech-hackaton-hsq
-* Repositório SUS: https://github.com/equipe-hackathon-sus/agendamento-filas-sus
+* Repositório HSQ: [HSQ](https://github.com/EduardoAguiarDeAraujo/eaa-postech-hackaton-hsq)
+* Repositório SUS: [SUS](https://github.com/equipe-hackathon-sus/agendamento-filas-sus)
 * Documentação das APIs: [Swagger UI](http://localhost:8080/webjars/swagger-ui/index.html)
 * Collection Postman: [collections](https://raw.githubusercontent.com/EduardoAguiarDeAraujo/eaa-postech-hackaton-hsq/refs/heads/main/.postman/HACKATON.postman_collection.json)
-* Teoria das Filas: série de aulas ministradas pela UNIVESP: https://www.youtube.com/watch?v=uNkHa1g5Pwg&list=WL&index=8, último acesso em: 31/01/2026
+* Teoria das Filas: série de aulas ministradas pela UNIVESP: [Teoria das Filas](https://www.youtube.com/watch?v=uNkHa1g5Pwg&list=WL&index=8)
 * CNES: https://cnes.datasus.gov.br/
 * RNDS: https://rnds-guia.saude.gov.br/
 * SISREG: https://sisregiii.saude.gov.br/

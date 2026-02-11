@@ -48,6 +48,9 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
+      rnds-atendimento:
+        connectTimeout: 3000
+        readTimeout: 3000
       cnes-unidade:
         connectTimeout: 2000
         readTimeout: 2000
@@ -66,3 +69,30 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    instances:
+      rnds-atendimento:
+        baseConfig: default
+      cnes-unidade:
+        baseConfig: default
+        failureRateThreshold: 40
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 6s
+    instances:
+      rnds-atendimento:
+        timeoutDuration: 4s
+      cnes-unidade:
+        timeoutDuration: 3s

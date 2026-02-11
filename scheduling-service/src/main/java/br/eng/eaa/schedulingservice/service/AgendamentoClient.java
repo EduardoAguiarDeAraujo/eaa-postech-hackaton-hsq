@@ -12,3 +12,4 @@ public interface AgendamentoClient {
     AgendamentoDTO agendarConsulta(@RequestBody AgendamentoDTO agendamento);
 
 }
+
